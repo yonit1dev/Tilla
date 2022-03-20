@@ -11,4 +11,4 @@ Group-Members
 1. Yonathan Tessema - UGR/5102/12
 2. Bethelehem Alula - UGR/0462/12
 3. Shalom Girma - UGR/
-4. Tsegazeab Yakob - UGR/
+4. Tsega Yakob - UGR/8465/12

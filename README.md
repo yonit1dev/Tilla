@@ -8,7 +8,6 @@ User teirs are available to be able to access advanced features of the app such 
 - This is a project as a fulfillment for the completion of the Mobile Application Development course.
 
 Group-Members
-1. Yonathan Tessema - UGR/5102/12
-2. Bethelehem Alula - UGR/0462/12
-3. Shalom Girma - UGR/
-4. Tsega Yakob - UGR/8465/12
+1. Bethelehem Alula - UGR/0462/12 - Section 02
+2. Shalom Girma - UGR/0528/12 - Section 02
+3. Yonathan Tessema - UGR/5102/12 - Section 01

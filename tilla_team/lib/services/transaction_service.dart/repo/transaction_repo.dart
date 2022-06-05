@@ -40,4 +40,18 @@ class TransactionRepo {
       throw Exception("Failed to load");
     }
   }
+
+  Future<String> sumTransactions() async {
+    final result = await transactionApi.getSum();
+
+    if (result.statusCode == 200) {
+      Map<String, dynamic> jsonResponse = json.decode(result.body);
+
+      String sumResult = jsonResponse['sum'].toString();
+
+      return sumResult;
+    } else {
+      throw Exception("Failed to sum");
+    }
+  }
 }

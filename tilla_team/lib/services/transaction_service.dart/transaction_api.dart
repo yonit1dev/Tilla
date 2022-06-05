@@ -23,6 +23,17 @@ class TransactionApi {
     }
   }
 
+  Future<http.Response> getSum() async {
+    try {
+      http.Response result = await http
+          .get(Uri.parse(baseUrl + transactionUrl + '/sum'), headers: headers);
+
+      return result;
+    } on Exception {
+      throw Exception("Couldn't sum transactions");
+    }
+  }
+
   Future<http.Response> addTransaction({
     required String date,
     required String accountID,

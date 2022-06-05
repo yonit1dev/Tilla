@@ -4,17 +4,15 @@ import 'dart:convert';
 
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
-import 'package:tilla_team/ui/pages/budget/budget_all.dart';
-import 'package:tilla_team/ui/pages/transaction/add_transaction.dart';
+import 'package:tilla_team/application/transactions/transaction_sum/transaction_sum_bloc.dart';
+import 'package:tilla_team/services/transaction_service.dart/repo/transaction_repo.dart';
 
 import '../../nav/nav.dart';
-import 'settings.dart';
-import 'stat.dart';
 import 'transaction_listView.dart';
 import 'welcome_model.dart';
-import '../transaction/transaction.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -26,65 +24,81 @@ class HomePage extends StatefulWidget {
 class _HomeState extends State<HomePage> {
   int activeIndex = 0;
   int index = 0;
+  double totalSum = 150;
   final greetings = [
     Welcome("Root User", "assets/images/tillaLogo.png"),
   ];
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: ListView(
-        children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 12),
-            // first column
-            child: Column(
-              children: [
-                Hello(),
-                //   CarouselSlider  Widget
-                CarouselSlider(
-                  items: [
-                    carouselItem1(),
-                    carouselItem2(),
-                    CarouselItem3(),
-                  ],
-                  // setting Carousel options
-                  options: CarouselOptions(
-                    height: 180,
-                    initialPage: 0,
-                    autoPlay: false,
-                    viewportFraction: 1,
-                    onPageChanged: (index, reason) =>
-                        setState(() => activeIndex = index),
+    return BlocProvider(
+      create: (context) => TransactionSumBloc(
+        RepositoryProvider.of<TransactionRepo>(context),
+      )..add(
+          TransactionSumReq(),
+        ),
+      child: Scaffold(
+        body: ListView(
+          children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 12),
+              // first column
+              child: Column(
+                children: [
+                  Hello(),
+                  //   CarouselSlider  Widget
+                  CarouselSlider(
+                    items: [
+                      carouselItem1(),
+                      carouselItem2(),
+                      CarouselItem3(),
+                    ],
+                    // setting Carousel options
+                    options: CarouselOptions(
+                      height: 180,
+                      initialPage: 0,
+                      autoPlay: false,
+                      viewportFraction: 1,
+                      onPageChanged: (index, reason) =>
+                          setState(() => activeIndex = index),
+                    ),
                   ),
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                // calls the buildCircles so that the dot sliders appear
-                Align(
-                  alignment: Alignment.center,
-                  child: Container(child: buildCircles),
-                ),
-                SizedBox(
-                  height: 20,
-                ),
-                StatisticsContainer(),
-                SizedBox(
-                  height: 20,
-                ),
-                TransactionContainer(),
-                SizedBox(
-                  height: 25,
-                ),
-                BudgetContainer(),
-                SizedBox(
-                  height: 15,
-                )
-              ],
+                  SizedBox(
+                    height: 10,
+                  ),
+                  // calls the buildCircles so that the dot sliders appear
+                  Align(
+                    alignment: Alignment.center,
+                    child: Container(child: buildCircles),
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  BlocBuilder<TransactionSumBloc, TransactionSumState>(
+                      builder: ((context, state) {
+                    if (state is TransactionSumDone) {
+                      totalSum = double.parse(state.sum);
+                    } else {
+                      totalSum = 150;
+                    }
+                    return StatisticsContainer(totalSum);
+                  })),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  TransactionContainer(),
+                  SizedBox(
+                    height: 25,
+                  ),
+                  BudgetContainer(),
+                  SizedBox(
+                    height: 15,
+                  )
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -235,122 +249,124 @@ class _HomeState extends State<HomePage> {
         ],
       )); //end of column inside the first column row);
 
-  Widget StatisticsContainer() => (ClipRRect(
-        borderRadius: BorderRadius.circular(15),
-        child: Container(
-          color: Color(0XFFEEEEEE),
-          padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-          child: Column(
-            children: [
-              Row(
-                children: [
-                  Icon(Icons.show_chart_outlined),
-                  SizedBox(
-                    width: 6,
+  Widget StatisticsContainer(double totalSum) {
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(15),
+      child: Container(
+        color: Color(0XFFEEEEEE),
+        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+        child: Column(
+          children: [
+            Row(
+              children: [
+                Icon(Icons.show_chart_outlined),
+                SizedBox(
+                  width: 6,
+                ),
+                Text(
+                  "Statistics",
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
                   ),
-                  Text(
-                    "Statistics",
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
+                )
+              ],
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "Total spent",
+                      style: TextStyle(
+                        color: Colors.blueGrey,
+                        fontWeight: FontWeight.w600,
+                        fontSize: 12,
+                      ),
                     ),
-                  )
-                ],
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "Avg month spend",
-                        style: TextStyle(
-                          color: Colors.blueGrey,
-                          fontWeight: FontWeight.w600,
-                          fontSize: 12,
+                    Row(
+                      children: [
+                        Text(
+                          totalSum.toString(),
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16,
+                          ),
                         ),
-                      ),
-                      Row(
-                        children: [
-                          Text(
-                            "ETB 456.80",
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16,
-                            ),
-                          ),
-                          SizedBox(
-                            width: 4,
-                          ),
-                          Icon(Icons.trending_down_outlined),
-                          SizedBox(
-                            width: 2,
-                          ),
-                          Text(
-                            "5%",
-                            style: TextStyle(color: Colors.redAccent),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "This month spending",
-                        style: TextStyle(
-                          color: Colors.blueGrey,
-                          fontWeight: FontWeight.w600,
-                          fontSize: 12,
+                        SizedBox(
+                          width: 4,
                         ),
+                        Icon(Icons.trending_down_outlined),
+                        SizedBox(
+                          width: 2,
+                        ),
+                        Text(
+                          "5%",
+                          style: TextStyle(color: Colors.redAccent),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "This month spending",
+                      style: TextStyle(
+                        color: Colors.blueGrey,
+                        fontWeight: FontWeight.w600,
+                        fontSize: 12,
                       ),
-                      Row(
-                        children: [
-                          Text(
-                            "ETB 234.01",
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16,
-                            ),
+                    ),
+                    Row(
+                      children: [
+                        Text(
+                          ((totalSum / 12).round()).toString(),
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16,
                           ),
-                          SizedBox(
-                            width: 4,
-                          ),
-                          Icon(Icons.trending_up_outlined),
-                          SizedBox(
-                            width: 2,
-                          ),
-                          Text(
-                            "13%",
-                            style: TextStyle(color: Colors.greenAccent),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-              SizedBox(
-                height: 26,
-              ),
-              Center(
-                  child: InkWell(
-                child: Container(
-                    child: Text(
-                  "More Details",
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-                )),
-                onTap: () {},
-              ))
-            ],
-          ),
+                        ),
+                        SizedBox(
+                          width: 4,
+                        ),
+                        Icon(Icons.trending_up_outlined),
+                        SizedBox(
+                          width: 2,
+                        ),
+                        Text(
+                          "13%",
+                          style: TextStyle(color: Colors.greenAccent),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ],
+            ),
+            SizedBox(
+              height: 26,
+            ),
+            Center(
+                child: InkWell(
+              child: Container(
+                  child: Text(
+                "More Details",
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+              )),
+              onTap: () {},
+            ))
+          ],
         ),
-      ));
+      ),
+    );
+  }
 
   Widget TransactionContainer() => (ClipRRect(
         borderRadius: BorderRadius.circular(15),

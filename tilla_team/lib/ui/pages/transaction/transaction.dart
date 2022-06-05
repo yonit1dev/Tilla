@@ -40,7 +40,7 @@ class _TransactionState extends State<Transaction> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    "Last Month",
+                    "Recents",
                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 23),
                   ),
                   InkWell(

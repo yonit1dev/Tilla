@@ -36,10 +36,6 @@ class _TransactionAddState extends State<TransactionAdd> {
     return Scaffold(
       backgroundColor: Color(0xFFEEEEEE),
       appBar: AppBar(
-        leading: const Icon(
-          Icons.arrow_back_ios_outlined,
-          color: Color(0xFF1F2633),
-        ),
         title: const Text(
           'Back',
           style: TextStyle(color: Color(0xFF1F2633)),

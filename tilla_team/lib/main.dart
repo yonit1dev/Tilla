@@ -45,6 +45,10 @@ void main() {
               create: (context) =>
                   BudgetListBloc(RepositoryProvider.of<BudgetRepo>(context)),
             ),
+            BlocProvider(
+              create: (context) => TransactionListBloc(
+                  RepositoryProvider.of<TransactionRepo>(context)),
+            ),
           ],
           child: BlocBuilder<AuthBloc, AuthState>(
             builder: (context, state) {

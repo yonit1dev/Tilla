@@ -80,7 +80,7 @@ class WelcomePage extends StatelessWidget {
               ),
               ElevatedButton(
                 onPressed: () {
-                  context.push('/');
+                  context.push('/login');
                 },
                 child: const Icon(
                   Icons.arrow_forward,

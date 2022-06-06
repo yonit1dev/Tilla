@@ -14,5 +14,6 @@ app.use(express.urlencoded({extended: true}))
 app.use('/authentication', DBConnect.authRouter())
 app.use('/transactions', DBConnect.transactionRouter())
 app.use('/budgets', DBConnect.budgetRouter())
+app.use('/accounts', DBConnect.accountRouter())
 
 app.listen(PORT, () => console.log('Running on port '+ PORT))

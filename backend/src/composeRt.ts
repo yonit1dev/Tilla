@@ -1,4 +1,6 @@
 import mongoose from "mongoose";
+import AccountRepo from "./accounts/data/repo/AccountRepo";
+import AccountRouter from "./accounts/services/AccountRouter";
 import AuthenticationRouter from "./auth/controllers/AuthRouter";
 import AuthRepository from "./auth/data/repositories/AuthRepository";
 import JwtTokenService from "./auth/data/services/JWTokenService";
@@ -45,4 +47,11 @@ export default class DBConnect{
 
         return BudgetRouter.config(repository)
     }
+
+    public static accountRouter(){
+        const repository = new AccountRepo(this.client)
+
+        return AccountRouter.config(repository)
+    }
+    
 }

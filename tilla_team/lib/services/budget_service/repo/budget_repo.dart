@@ -5,6 +5,7 @@ import 'package:tilla_team/services/local_storage/local_storage.dart';
 
 class BudgetRepo {
   BudgetApi budgetApi = BudgetApi();
+  var localSaved = LocalStorage();
 
   Future<String> addBudget(String type, String accountID, String utilized,
       double goalAmount, String endDate, String description) async {
@@ -17,8 +18,7 @@ class BudgetRepo {
           endDate: endDate,
           description: description);
 
-      // var localSaved = LocalStorage();
-      // await localSaved.addValues('budgets', result);
+      await localSaved.addValues('budgets', result);
 
       if (result.body != "Budget Added Successfully") {
         String errorMsg = "Coudln't add budget";
@@ -37,6 +37,8 @@ class BudgetRepo {
       Map<String, dynamic> jsonResponse = json.decode(result.body);
 
       List actual = jsonResponse['budgets'];
+
+      await localSaved.addValues('budgets', actual);
 
       return actual;
     } else {

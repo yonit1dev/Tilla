@@ -2,9 +2,11 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:tilla_team/services/transaction_service.dart/transaction_api.dart';
+import 'package:tilla_team/services/local_storage/local_storage.dart';
 
 class TransactionRepo {
   TransactionApi transactionApi = TransactionApi();
+  var localSaved = LocalStorage();
 
   Future<String> addTransaction(String date, String accountID, String type,
       double amount, String description, String categoryID) async {
@@ -16,6 +18,7 @@ class TransactionRepo {
           amount: amount,
           description: description,
           categoryID: categoryID);
+      await localSaved.addValues('transactions', result);
 
       if (result.body != "Transaction Added Successfully") {
         String errorMsg = "Couldn't add transaction";
@@ -34,6 +37,8 @@ class TransactionRepo {
       Map<String, dynamic> jsonResponse = json.decode(result.body);
 
       List actual = jsonResponse['transactions'];
+
+      await localSaved.addValues('transactions', actual);
 
       return actual;
     } else {

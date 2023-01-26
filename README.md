@@ -10,7 +10,4 @@ This is a mobile application built using Google's Flutter UI framework paired wi
 
 - This is a project as a fulfillment for the completion of Mobile Application Development course.
 
-Group-Members
-1. Bethelehem Alula - UGR/0462/12 - Section 02
-2. Shalom Girma - UGR/0528/12 - Section 02
-3. Yonathan Tessema - UGR/5102/12 - Section 01
+- Please note: still in development.

@@ -1,13 +1,13 @@
 # Tilla
-Tilla is a financial management application for young adults. It streamlines your accounts to get an overview of your transactions and make conscious decisions regarding your finances.
 
-Tilla is a cross-platform mobile application that aids youth in their early financial stride get a jump start. Users can effortlessly manage their finances, set up budgets, and track their spending to get a more clear understanding of their financial well-being. Young adults who utilize the app can: create a daily, weekly, or monthly budget so as to limit their expenses and boost their savings, setup long-term financial goals and start their journey, get all their transactions in one place and manage them.
+Tilla is a personal financial management app that helps users gain insights into their finances, track their budgets and savings, manage their transactions, and generate reports and recommendations for a better financial life.
 
-Users can signup for the service and overhaul their financial life.
-User teirs are available to be able to access advanced features of the app such as: linking their bank accounts and cards, in-house billing system... etc.
+Tilla offers a variety of features to help users stay on top of their finances, including:
 
-This is a mobile application built using Google's Flutter UI framework paired with MongoDB as data storage and nodejs for server communication(Service layer - API's).
+- *Budgeting*: Tilla allows users to create and manage budgets for different categories, such as housing, food, transportation, and entertainment. Users can set spending limits for each category and track their progress throughout their defined time period.
+- *Savings tracking*: Tilla helps users track their savings goals and progress. Users can set savings goals for specific items, such as a down payment on a house or a vacation. Tilla also provides insights into how users' savings are growing over time.
+- *Transaction management*: Tilla allows users to manually log their transactions, including income and expenses. Tilla automatically categorizes transactions and generates reports on spending patterns.
+- *Reporting*: Tilla generates a variety of reports to help users understand their financial situation. These reports include income and expense reports, budget vs. actual reports, and savings progress reports.
+- *Recommendations*: Tilla provides users with personalized recommendations for improving their financial health. These recommendations are based on users' spending patterns and savings goals.
 
-- This is a project as a fulfillment for the completion of Mobile Application Development course.
-
-- Please note: still in development.
+Tilla is a comprehensive financial management app that can help users at all stages of their financial journey. It is a valuable tool for anyone who wants to get a better handle on their finances and achieve their financial goals.
